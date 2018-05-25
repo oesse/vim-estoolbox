@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 usage() {
-  echo "usage: $(basename $1) TARGET_FILE DIR" 
-  echo "or:    $(basename $1) --help" 
+  echo "usage: $(basename $1) TARGET_FILE DIR"
+  echo "or:    $(basename $1) --help"
   echo "Find javascript files in DIR importing TARGET_FILE."
   exit 0
 }
@@ -30,7 +30,7 @@ done
 [[ ! -f ${args[0]} ]] && error $0 "invalid target file '${args[0]}'"
 [[ ! -d ${args[1]} ]] && error $0 "invalid search directory '${args[1]}'"
 
-target_file=${args[0]} 
+target_file=${args[0]}
 search_directory=${args[1]}
 
 if [[ ! -z "$(which rg 2>/dev/null)" ]]; then
@@ -41,7 +41,7 @@ else
   search_cmd="grep --recursive --perl-regexp --with-filename --line-number --byte-offset --exclude-from=.gitignore"
 fi
 
-# === end validation === 
+# === end validation ===
 
 find_imports() {
   local target_file_name=${1##*/}
@@ -53,7 +53,7 @@ find_imports() {
     pattern_find_imports="from '(\\.\\.?(/..)*')|([^']*/$dir_name')"
   fi
   local search_dir=$2
-  $search_cmd "$pattern_find_imports" $search_dir 
+  $search_cmd "$pattern_find_imports" $search_dir
 }
 
 mask_filename_and_import_ref() {
@@ -73,7 +73,7 @@ resolve_path() {
   if [[ $reference != .* ]]; then
     return
   fi
- 
+
   local relpath=$(ls $dirpath/$reference{.js{,x},/index.{js,jsx}} 2> /dev/null)
 
   # styl, coffee other file that is not found here
