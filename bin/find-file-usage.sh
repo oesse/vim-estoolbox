@@ -33,7 +33,7 @@ done
 target_file=${args[0]} 
 search_directory=${args[1]}
 
-if [[ ! -z "$(which rxg 2>/dev/null)" ]]; then
+if [[ ! -z "$(which rg 2>/dev/null)" ]]; then
   search_cmd="$(which rg) --vimgrep --type js"
 elif [[ ! -z "$(which ag 2>/dev/null)" ]]; then
   search_cmd="$(which ag) --vimgrep --js"
