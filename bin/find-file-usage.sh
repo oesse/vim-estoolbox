@@ -92,12 +92,26 @@ remove_resolved_path() {
   cut -d: -f-2
 }
 
+
+show_imported_entities() {
+  local file=${@%:*}
+  local lno=${@#*:}
+  paste \
+    <(echo $@)\
+    <(sed -e '1,'"$lno"'{/^import/{ x; d} ;H ; d}; x ; s/import \(.*\) from.*/\1/; s/[{}\n]//g; s/\s\+/ /g ; s/\(^\s\|\s$\)//; q' $file) \
+    | tr '\t' ' '
+
+}
+
 # =============================================================================
 export -f resolve_abs_path
 export -f resolve_path
+export -f show_imported_entities
 find_imports "$target_file" "$search_directory" \
   | mask_filename_and_import_ref \
   | xargs -P 10 -n 1 -I {} bash -c 'resolve_path {}' \
   | filter_reference_to_target "$target_file" \
-  | remove_resolved_path
+  | remove_resolved_path \
+  | xargs -P 10 -n 1 -I {} bash -c 'show_imported_entities {}'
+
 

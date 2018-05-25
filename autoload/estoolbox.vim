@@ -18,7 +18,7 @@ function! estoolbox#FindFileUsages()
 
   call setqflist([], 'r', {
         \ "title": "usages of ".current_file,
-        \ "efm": '%f:%l',
+        \ "efm": '%f:%l %m',
         \"lines": usages
         \})
   let usages_count = len(usages)
