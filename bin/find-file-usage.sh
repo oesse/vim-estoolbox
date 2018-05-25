@@ -97,7 +97,7 @@ export -f resolve_abs_path
 export -f resolve_path
 find_imports "$target_file" "$search_directory" \
   | mask_filename_and_import_ref \
-  | xargs -P 0 -n 1 -I {} bash -c 'resolve_path {}' \
+  | xargs -P 10 -n 1 -I {} bash -c 'resolve_path {}' \
   | filter_reference_to_target "$target_file" \
   | remove_resolved_path
 
